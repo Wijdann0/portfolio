@@ -81,7 +81,7 @@
 // Blog section yang menarik data dari Supabase blog_posts
 import { onMounted, ref } from 'vue'
 import { BlogService } from '@/services/blogService'
-import { useIntersection } from '@/utils/useIntersection'
+import { useIntersection } from '@/utils/useInterSection'
 import { RouterLink } from 'vue-router'
 
 const props = defineProps({

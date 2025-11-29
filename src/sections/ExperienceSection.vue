@@ -52,7 +52,7 @@
 <script setup>
 // Timeline vertical dengan indikator bulat ala modern portfolio
 import { ref } from 'vue'
-import { useIntersection } from '@/utils/useIntersection'
+import { useIntersection } from '@/utils/useInterSection'
 
 const props = defineProps({
   id: String

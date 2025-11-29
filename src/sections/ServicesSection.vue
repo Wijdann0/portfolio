@@ -55,7 +55,7 @@
 <script setup>
 // Section Services dengan kartu-kartu ala Samsung
 import { ref } from 'vue'
-import { useIntersection } from '@/utils/useIntersection'
+import { useIntersection } from '@/utils/useInterSection'
 
 const props = defineProps({
   id: String

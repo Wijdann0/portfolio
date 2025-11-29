@@ -47,7 +47,7 @@
 <script setup>
 // Kartu testimoni, nantinya bisa diisi dari Supabase testimonials table
 import { ref } from 'vue'
-import { useIntersection } from '@/utils/useIntersection'
+import { useIntersection } from '@/utils/useInterSection'
 
 const props = defineProps({
   id: String

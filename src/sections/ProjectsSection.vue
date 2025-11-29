@@ -96,7 +96,7 @@
 import { onMounted, ref } from "vue";
 import { useProjectsStore } from "@/store/useProjectsStore";
 import { storeToRefs } from "pinia";
-import { useIntersection } from "@/utils/useIntersection"; // kita bikin sendiri
+import { useIntersection } from "@/utils/useInterSection"; // kita bikin sendiri
 
 const props = defineProps({
   id: String,
