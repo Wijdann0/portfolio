@@ -30,7 +30,7 @@
         </button>
 
         <a
-          href="/cv.pdf"
+          href="/cv-wijdan.pdf"
           target="_blank"
           class="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-sm font-medium transition"
         >
