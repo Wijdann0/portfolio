@@ -2,20 +2,21 @@
 import { supabase } from '@/services/supabaseClient'
 
 export const ProjectService = {
-  async getProjects({ featuredOnly = false } = {}) {
-    let query = supabase
-      .from('projects')
-      .select('*')
-      .order('created_at', { ascending: false })
+async getProjects({ featuredOnly = false } = {}) {
+  let query = supabase
+    .from('projects')
+    .select('*')
+    .order('created_at', { ascending: false })
 
-    if (featuredOnly) {
-      query = query.eq('is_featured', true)
-    }
+  if (featuredOnly) {
+    query = query.eq('is_featured', true)
+  }
 
-    const { data, error } = await query
-    if (error) throw error
-    return data
-  },
+  const { data, error } = await query
+  if (error) throw error
+  return data
+},
+
 
   async getProjectBySlug(slug) {
     const { data, error } = await supabase

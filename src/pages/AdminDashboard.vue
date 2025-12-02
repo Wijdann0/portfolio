@@ -508,17 +508,175 @@
         </div>
 
         <!-- ================== TESTIMONIALS ================== -->
-        <div v-else-if="activeTab === 'testimonials'" class="space-y-4">
-          <h2 class="text-lg md:text-xl font-semibold">Testimonials</h2>
-          <p class="text-sm text-gray-400">
-            Kamu bisa menambahkan form sederhana untuk menyimpan data ke tabel
-            <span class="font-mono text-xs">testimonials</span> (name, role,
-            company, message, avatar_url).
-          </p>
-          <p class="text-xs text-gray-500">
-            Data tersebut kemudian bisa ditampilkan di halaman depan pada
-            section Testimonials.
-          </p>
+        <div v-else-if="activeTab === 'testimonials'" class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg md:text-xl font-semibold">Testimonials</h2>
+              <p class="text-sm text-gray-400">
+                Kelola testimoni klien yang akan ditampilkan di halaman utama.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              @click="resetTestimonialForm"
+              class="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-medium"
+            >
+              Testimonial baru
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- FORM -->
+            <div class="glass-card p-5 space-y-4">
+              <h3 class="text-sm font-semibold">
+                {{
+                  editingTestimonialId
+                    ? "Edit testimonial"
+                    : "Tambah testimonial"
+                }}
+              </h3>
+
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Nama</label>
+                  <input
+                    v-model="testimonialForm.name"
+                    type="text"
+                    class="w-full bg-bg-main border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
+                  />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs text-gray-400 mb-1">Role</label>
+                    <input
+                      v-model="testimonialForm.role"
+                      type="text"
+                      class="w-full bg-bg-main border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
+                      placeholder="CTO, Product Manager, dsb."
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs text-gray-400 mb-1"
+                      >Perusahaan</label
+                    >
+                    <input
+                      v-model="testimonialForm.company"
+                      type="text"
+                      class="w-full bg-bg-main border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1"
+                    >Avatar URL</label
+                  >
+                  <input
+                    v-model="testimonialForm.avatar_url"
+                    type="text"
+                    class="w-full bg-bg-main border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
+                    placeholder="https://..."
+                  />
+                  <p class="text-[11px] text-gray-500 mt-1">
+                    Bisa gunakan URL gambar dari Supabase Storage atau CDN lain.
+                  </p>
+                </div>
+
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Pesan</label>
+                  <textarea
+                    v-model="testimonialForm.message"
+                    rows="4"
+                    class="w-full bg-bg-main border border-white/10 rounded-lg px-3 py-2 text-sm outline-none focus:border-accent resize-y"
+                  ></textarea>
+                </div>
+
+                <p v-if="testimonialsError" class="text-xs text-red-400">
+                  {{ testimonialsError }}
+                </p>
+
+                <button
+                  type="button"
+                  @click="saveTestimonial"
+                  class="px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-soft text-xs font-medium shadow-soft-glow transition-all"
+                >
+                  {{
+                    editingTestimonialId
+                      ? "Simpan perubahan"
+                      : "Tambah testimonial"
+                  }}
+                </button>
+              </div>
+            </div>
+
+            <!-- LIST -->
+            <div class="glass-card p-5 space-y-3 max-h-[480px] overflow-y-auto">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-semibold">Daftar testimonials</h3>
+                <span class="text-[11px] text-gray-500">
+                  {{ testimonials.length }} item
+                </span>
+              </div>
+
+              <div v-if="testimonialsLoading" class="text-sm text-gray-400">
+                Memuat testimonials...
+              </div>
+
+              <div
+                v-else-if="testimonials.length === 0"
+                class="text-sm text-gray-500"
+              >
+                Belum ada testimonial.
+              </div>
+
+              <ul v-else class="space-y-3">
+                <li
+                  v-for="t in testimonials"
+                  :key="t.id"
+                  class="flex items-start gap-3 border border-white/10 rounded-xl px-3 py-3 text-sm bg-white/5"
+                >
+                  <img
+                    v-if="t.avatar_url"
+                    :src="t.avatar_url"
+                    :alt="t.name"
+                    class="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                  />
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <div>
+                        <p class="font-medium text-sm">{{ t.name }}</p>
+                        <p class="text-[11px] text-gray-400">
+                          {{ t.role }}
+                          <span v-if="t.company">· {{ t.company }}</span>
+                        </p>
+                      </div>
+                      <div
+                        class="flex items-center gap-2 text-[11px] text-gray-400"
+                      >
+                        <button
+                          class="hover:text-accent-soft"
+                          @click="startEditTestimonial(t)"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          class="hover:text-red-400"
+                          @click="deleteTestimonial(t.id)"
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-300 line-clamp-3">
+                      “{{ t.message }}”
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -531,6 +689,8 @@ import { onMounted, reactive, ref } from "vue";
 import { useUserStore } from "@/store/useUserStore";
 import { ProjectService } from "@/services/projectService";
 import { BlogService } from "@/services/blogService";
+import { TestimonialService } from "@/services/testimonialService"
+
 
 const userStore = useUserStore();
 
@@ -591,8 +751,6 @@ const form = reactive({
   demo_url: "",
   is_featured: false,
 });
-
-
 
 // Ambil data projects dari Supabase
 const loadProjects = async () => {
@@ -801,10 +959,105 @@ const deleteBlog = async (id) => {
   }
 };
 
+// ===== STATE TESTIMONIALS =====
+const testimonials = ref([])
+const testimonialsLoading = ref(false)
+const testimonialsError = ref("")
+const editingTestimonialId = ref(null)
+
+const testimonialForm = ref({
+  name: "",
+  role: "",
+  company: "",
+  message: "",
+  avatar_url: "",
+})
+
+const resetTestimonialForm = () => {
+  testimonialForm.value = {
+    name: "",
+    role: "",
+    company: "",
+    message: "",
+    avatar_url: "",
+  }
+  editingTestimonialId.value = null
+}
+
+const loadTestimonials = async () => {
+  testimonialsLoading.value = true
+  testimonialsError.value = ""
+
+  try {
+    testimonials.value = await TestimonialService.getTestimonials()
+  } catch (err) {
+    console.error("Gagal memuat testimonials:", err)
+    testimonialsError.value = err.message ?? "Gagal memuat testimonials"
+  } finally {
+    testimonialsLoading.value = false
+  }
+}
+
+const saveTestimonial = async () => {
+  testimonialsError.value = ""
+
+  // validasi sangat sederhana
+  if (!testimonialForm.value.name.trim() || !testimonialForm.value.message.trim()) {
+    testimonialsError.value = "Nama dan pesan wajib diisi."
+    return
+  }
+
+  try {
+    if (editingTestimonialId.value) {
+      // UPDATE
+      await TestimonialService.updateTestimonial(
+        editingTestimonialId.value,
+        testimonialForm.value,
+      )
+    } else {
+      // CREATE
+      await TestimonialService.createTestimonial(testimonialForm.value)
+    }
+
+    resetTestimonialForm()
+    await loadTestimonials()
+  } catch (err) {
+    console.error("Gagal menyimpan testimonial:", err)
+    testimonialsError.value = err.message ?? "Gagal menyimpan testimonial"
+  }
+}
+
+const startEditTestimonial = (item) => {
+  editingTestimonialId.value = item.id
+  testimonialForm.value = {
+    name: item.name ?? "",
+    role: item.role ?? "",
+    company: item.company ?? "",
+    message: item.message ?? "",
+    avatar_url: item.avatar_url ?? "",
+  }
+}
+
+const deleteTestimonial = async (id) => {
+  const ok = window.confirm("Yakin ingin menghapus testimonial ini?")
+  if (!ok) return
+
+  try {
+    await TestimonialService.deleteTestimonial(id)
+    await loadTestimonials()
+  } catch (err) {
+    console.error("Gagal menghapus testimonial:", err)
+    alert("Gagal menghapus testimonial. Cek console untuk detail.")
+  }
+}
+
+
+
 // Saat component mount, ambil data awal
 onMounted(() => {
   loadProjects();
   loadBlogPosts();
+  loadTestimonials();
 });
 </script>
 

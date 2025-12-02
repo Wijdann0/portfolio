@@ -8,7 +8,7 @@
       <div class="mb-10">
         <p class="section-eyebrow">Experience</p>
         <h2 class="section-title mt-2">
-          Pengalaman & pendidikan.
+          Experience & Studying.
         </h2>
       </div>
 
@@ -63,27 +63,27 @@ const { isVisible } = useIntersection(sectionRef)
 
 const timeline = [
   {
-    period: '2023 – Sekarang',
-    title: 'Senior Front-end Engineer',
-    company: 'Perusahaan A (Remote)',
+    period: '2025 – Now',
+    title: 'Information Systems',
+    company: 'Universitas Bhakti Tunas Husada',
     description:
-      'Mengembangkan dashboard internal dan customer-facing web app dengan Vue 3 dan Supabase.',
-    tags: ['Vue 3', 'Vite', 'Supabase']
+      'Studying information systems with a focus on database management,web development and Internet Of Things.',
+    tags: ['Java', 'mysql','python']
   },
   {
-    period: '2021 – 2023',
-    title: 'Full-stack Developer',
-    company: 'Perusahaan B',
+    period: '2025 (Jan – Apr)',
+    title: 'Internship at Start Up',
+    company: 'Rekhatama IT Training Center',
     description:
-      'Membangun sistem booking end-to-end dari frontend, backend, hingga deployment.',
-    tags: ['Node.js', 'PostgreSQL', 'REST API']
+      'Creating a company profile website using Laravel and MySQL.',
+    tags: ['Node.js', 'MySQL', 'Laravel']
   },
   {
-    period: '2017 – 2021',
-    title: 'Informatics / Computer Science',
-    company: 'Universitas X',
+    period: '2022 – 2025',
+    title: 'Software Engineering',
+    company: 'SMK Negeri 4 Kota Tasikmalaya',
     description:
-      'Fokus pada pengembangan web, struktur data, dan pemrograman berorientasi objek.',
+      'Focus on web development, data structures, and object-oriented programming.',
     tags: ['JavaScript', 'OOP', 'Web Dev']
   }
 ]
