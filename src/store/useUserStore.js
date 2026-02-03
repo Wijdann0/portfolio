@@ -32,7 +32,7 @@ export const useUserStore = defineStore('user', {
     if (error) throw error
 
     // Batasi hanya email tertentu yg boleh akses admin
-    const allowedAdmins = ['admin@portfolio.dev']
+    const allowedAdmins = ['wijdanfr2@gmail.com']
     if (!allowedAdmins.includes(data.user.email)) {
       // langsung logout lagi
       await supabase.auth.signOut()
